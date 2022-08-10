@@ -28,6 +28,13 @@ const ordersRequest = await client.getOrders({
 })
 ```
 
+```typescript
+const ordersRequest = await client.getOrders({
+  status: ImmutableOrderStatus.active,
+  sell_token_address: collectionAddress,
+})
+```
+
 :::info Order sides
 Orders have a buy and a sell side. When sorting and filtering, remember that each side has its own filtering parameters.
 :::
@@ -46,6 +53,16 @@ const ordersRequest = await client.getOrders({
 })
 ```
 
+```typescript
+//Sort by price, lowest to highest
+const ordersRequest = await client.getOrders({
+  status: ImmutableOrderStatus.active,
+  sell_token_address: collectionAddress,
+  order_by: 'buy_quantity',
+  direction: ImmutableMethodParams.ImmutableSortOrder.asc,
+})
+```
+
 ## Filter orders
 
 Orders can be filtered on multiple properties, but the most common use cases are filtering on asset name and asset metadata. The following shows asset name filtering for orders, often used by a search bar component:
@@ -58,6 +75,14 @@ const ordersRequest = await client.getOrders({
 })
 ```
 
+```typescript
+const ordersRequest = await client.getOrders({
+  status: ImmutableOrderStatus.active,
+  sell_token_address: collectionAddress,
+  sell_token_name: tokenName,
+})
+```
+
 Filtering by metadata is more complicated. The metadata filter accepts a JSON string defining an object containing the property filters. Each filter property is an array containing the value of the property to filter on. Each property name must match exactly.
 
 The following example shows how to filter Gods Unchained Card orders for a Boost Walker card (proto 55) with a quality of Shadow or Gold:
@@ -65,6 +90,14 @@ The following example shows how to filter Gods Unchained Card orders for a Boost
 ```javascript
 const ordersRequest = await client.getOrders({
   status: 'active',
+  sell_token_address: '0xacb3c6a43d15b907e8433077b6d38ae40936fe2c',
+  sell_metadata: '{"proto":["55"],"quality":["Shadow","Gold"]}',
+})
+```
+
+```typescript
+const ordersRequest = await client.getOrders({
+  status: ImmutableOrderStatus.active,
   sell_token_address: '0xacb3c6a43d15b907e8433077b6d38ae40936fe2c',
   sell_metadata: '{"proto":["55"],"quality":["Shadow","Gold"]}',
 })
